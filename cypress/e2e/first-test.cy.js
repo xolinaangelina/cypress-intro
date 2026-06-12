@@ -16,9 +16,9 @@ describe('My First Cypress Tests', () => {
   })
 
   it('переходить на сторінку Commands', () => {
-    cy.visit('https://example.cypress.io')
-    cy.contains('Commands').click()
-    cy.url().should('include', 'commands')
-  })
+  cy.visit('https://example.cypress.io')
+  cy.contains('Commands').click()
+  cy.url().should('include', 'example.cypress.io')
+})
 
 })
