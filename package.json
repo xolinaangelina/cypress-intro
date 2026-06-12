@@ -1,0 +1,24 @@
+{
+  "name": "cypress-intro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "cy:open": "cypress open",
+  "cy:run": "cypress run"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xolinaangelina/cypress-intro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xolinaangelina/cypress-intro/issues"
+  },
+  "homepage": "https://github.com/xolinaangelina/cypress-intro#readme",
+  "devDependencies": {
+    "cypress": "^15.17.0"
+  }
+}
