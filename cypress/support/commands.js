@@ -48,3 +48,22 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
 
   return originalFn(element, text, options);
 });
+Cypress.Commands.add('createExpenseViaApi', (carId, mileage, liters, totalCost) => {
+  cy.getCookies().then((cookies) => {
+    const cookieString = cookies.map((c) => `${c.name}=${c.value}`).join('; ');
+    cy.request({
+      method: 'POST',
+      url: '/api/expenses',
+      headers: { Cookie: cookieString },
+      body: {
+        carId,
+        reportedAt: new Date().toISOString().split('T')[0],
+        mileage,
+        liters,
+        totalCost,
+      },
+    }).then((response) => {
+      cy.wrap(response).as('expenseResponse');
+    });
+  });
+});

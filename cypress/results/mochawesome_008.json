@@ -1,0 +1,178 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 0,
+    "pending": 0,
+    "failures": 4,
+    "start": "2026-06-25T06:39:30.277Z",
+    "end": "2026-06-25T06:39:50.040Z",
+    "duration": 19763,
+    "testsRegistered": 4,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "595074a6-64f5-4ac6-a5cc-2e7ee8bb0cf4",
+      "title": "",
+      "fullFile": "cypress\\e2e\\garage.cy.js",
+      "file": "cypress\\e2e\\garage.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "7f3e1373-ba73-4e27-9c20-8216361ff67e",
+          "title": "Garage and Fuel Expenses",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should add a car to garage",
+              "fullTitle": "Garage and Fuel Expenses should add a car to garage",
+              "timedOut": null,
+              "duration": 6906,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  cy.log(JSON.stringify(interception.response.body));\n  expect(interception.response.statusCode).to.eq(201);\n  const carId = interception.response.body.data.id;\n  expect(carId).to.exist;\n  cy.wrap(carId).as('carId');\n});\n_GaragePage.default.carIsVisible('Audi TT');",
+              "err": {
+                "message": "AssertionError: expected 400 to equal 201",
+                "estack": "AssertionError: expected 400 to equal 201\n    at Context.eval (webpack://cypress-intro/./cypress/e2e/garage.cy.js:20:50)\n    at getRet (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123004:20)\n    at tryCatcher (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise.attempt.Promise.try (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:4285:29)\n    at Context.thenFn (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123015:66)\n    at Context.then (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123266:21)",
+                "diff": "- 400\n+ 201\n"
+              },
+              "uuid": "42e955c6-2683-4e30-9fe6-2ef4f23ec539",
+              "parentUUID": "7f3e1373-ba73-4e27-9c20-8216361ff67e",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should validate created car via API",
+              "fullTitle": "Garage and Fuel Expenses should validate created car via API",
+              "timedOut": null,
+              "duration": 4662,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  const carId = interception.response.body.data.id;\n  cy.wrap(carId).as('carId');\n});\ncy.get('@carId').then(carId => {\n  cy.getCookies().then(cookies => {\n    const cookieString = cookies.map(c => `${c.name}=${c.value}`).join('; ');\n    cy.request({\n      method: 'GET',\n      url: '/api/cars',\n      headers: {\n        Cookie: cookieString\n      }\n    }).then(response => {\n      expect(response.status).to.eq(200);\n      const cars = response.body.data;\n      const createdCar = cars.find(car => car.id === carId);\n      expect(createdCar).to.exist;\n      expect(createdCar.brand).to.eq('Audi');\n      expect(createdCar.model).to.eq('TT');\n      expect(createdCar.initialMileage).to.eq(10000);\n    });\n  });\n});",
+              "err": {
+                "message": "AssertionError: expected 400 to equal 201",
+                "estack": "AssertionError: expected 400 to equal 201\n    at Context.eval (webpack://cypress-intro/./cypress/e2e/garage.cy.js:39:50)\n    at getRet (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123004:20)\n    at tryCatcher (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise.attempt.Promise.try (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:4285:29)\n    at Context.thenFn (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123015:66)\n    at Context.then (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123266:21)",
+                "diff": "- 400\n+ 201\n"
+              },
+              "uuid": "b2db3404-8b3c-4592-aad2-da52cb4f3a91",
+              "parentUUID": "7f3e1373-ba73-4e27-9c20-8216361ff67e",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should create expense via API and validate response",
+              "fullTitle": "Garage and Fuel Expenses should create expense via API and validate response",
+              "timedOut": null,
+              "duration": 3539,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  const carId = interception.response.body.data.id;\n  cy.wrap(carId).as('carId');\n});\ncy.get('@carId').then(carId => {\n  cy.createExpenseViaApi(carId, 10500, 40, 60);\n  cy.get('@expenseResponse').then(response => {\n    expect(response.status).to.eq(200);\n    const expense = response.body.data;\n    expect(expense.carId).to.eq(carId);\n    expect(expense.mileage).to.eq(10500);\n    expect(expense.liters).to.eq(40);\n    expect(expense.totalCost).to.eq(60);\n  });\n});",
+              "err": {
+                "message": "AssertionError: expected 400 to equal 201",
+                "estack": "AssertionError: expected 400 to equal 201\n    at Context.eval (webpack://cypress-intro/./cypress/e2e/garage.cy.js:74:50)\n    at getRet (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123004:20)\n    at tryCatcher (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise.attempt.Promise.try (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:4285:29)\n    at Context.thenFn (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123015:66)\n    at Context.then (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123266:21)",
+                "diff": "- 400\n+ 201\n"
+              },
+              "uuid": "b47c8269-ba02-4bb2-adab-ed935f6020fb",
+              "parentUUID": "7f3e1373-ba73-4e27-9c20-8216361ff67e",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should validate expense via UI",
+              "fullTitle": "Garage and Fuel Expenses should validate expense via UI",
+              "timedOut": null,
+              "duration": 4381,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  const carId = interception.response.body.data.id;\n  cy.wrap(carId).as('carId');\n});\ncy.get('@carId').then(carId => {\n  cy.createExpenseViaApi(carId, 10500, 40, 60);\n  cy.contains('a', 'Fuel expenses').click();\n  cy.get('#carSelectDropdown').should('contain', 'Audi TT');\n  cy.contains('60.00').should('be.visible');\n});",
+              "err": {
+                "message": "AssertionError: expected 400 to equal 201",
+                "estack": "AssertionError: expected 400 to equal 201\n    at Context.eval (webpack://cypress-intro/./cypress/e2e/garage.cy.js:103:50)\n    at getRet (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123004:20)\n    at tryCatcher (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise.attempt.Promise.try (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:4285:29)\n    at Context.thenFn (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123015:66)\n    at Context.then (https://qauto.forstudy.space/__cypress/runner/cypress_runner.js:123266:21)",
+                "diff": "- 400\n+ 201\n"
+              },
+              "uuid": "5d821ab8-dc31-4bda-b5a7-926764b70efe",
+              "parentUUID": "7f3e1373-ba73-4e27-9c20-8216361ff67e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "42e955c6-2683-4e30-9fe6-2ef4f23ec539",
+            "b2db3404-8b3c-4592-aad2-da52cb4f3a91",
+            "b47c8269-ba02-4bb2-adab-ed935f6020fb",
+            "5d821ab8-dc31-4bda-b5a7-926764b70efe"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 19488,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

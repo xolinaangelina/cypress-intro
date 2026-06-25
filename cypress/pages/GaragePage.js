@@ -1,22 +1,30 @@
 class GaragePage {
+   selectors = {
+    addCarButton: 'button',
+    brandSelect: 'select#addCarBrand',
+    modelSelect: 'select#addCarModel',
+    mileageInput: '#addCarMileage',
+    submitButton: '.modal-content button.btn-primary',
+  };
+
   clickAddCar() {
-    cy.contains('button', 'Add car').click();
+    cy.contains(this.selectors.addCarButton, 'Add car').click();
   }
 
   selectBrand(brand) {
-    cy.get('select#addCarBrand').select(brand);
+    cy.get(this.selectors.brandSelect).select(brand);
   }
 
   selectModel(model) {
-    cy.get('select#addCarModel').select(model);
+    cy.get(this.selectors.modelSelect).select(model);
   }
 
   setMileage(mileage) {
-    cy.get('#addCarMileage').type(mileage);
+    cy.get(this.selectors.mileageInput).type(mileage);
   }
 
-  submitAddCar() {
-    cy.get('.modal-content button.btn-primary').click();
+   submitAddCar() {
+    cy.get(this.selectors.submitButton).should('not.be.disabled').click();
   }
 
   carIsVisible(model) {

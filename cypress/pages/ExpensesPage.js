@@ -1,26 +1,35 @@
 class ExpensesPage {
+  selectors = {
+    fuelExpensesLink: 'a[routerlink="expenses"]',
+    addExpenseButton: 'button',
+    mileageInput: '#addExpenseMileage',
+    litersInput: '#addExpenseLiters',
+    totalCostInput: '#addExpenseTotalCost',
+    submitButton: '.modal-content button.btn-primary',
+  };
+
   clickFuelExpenses() {
-    cy.get('a[routerlink="expenses"]').click();
+    cy.get(this.selectors.fuelExpensesLink).click();
   }
 
   clickAddExpense() {
-    cy.contains('button', 'Add an expense').click();
+    cy.contains(this.selectors.addExpenseButton, 'Add an expense').click();
   }
 
   setMileage(mileage) {
-    cy.get('#addExpenseMileage').clear().type(mileage);
+    cy.get(this.selectors.mileageInput).clear().type(mileage);
   }
 
   setLiters(liters) {
-    cy.get('#addExpenseLiters').type(liters);
+    cy.get(this.selectors.litersInput).type(liters);
   }
 
   setTotalCost(cost) {
-    cy.get('#addExpenseTotalCost').type(cost);
+    cy.get(this.selectors.totalCostInput).type(cost);
   }
 
   submitExpense() {
-    cy.get('.modal-content button.btn-primary').click();
+    cy.get(this.selectors.submitButton).click();
   }
 }
 export default new ExpensesPage();
