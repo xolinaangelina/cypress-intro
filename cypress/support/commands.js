@@ -26,8 +26,8 @@
 Cypress.Commands.add('login', (email, password) => {
   cy.visit('/', {
     auth: {
-      username: 'guest',
-      password: 'welcome2qauto'
+      username: Cypress.env('guestLogin'),
+      password: Cypress.env('guestPassword')
     }
   });
   cy.get('.header_signin').click();
@@ -35,6 +35,7 @@ Cypress.Commands.add('login', (email, password) => {
   cy.get('#signinPassword').type(password, { sensitive: true });
   cy.get('button[type="button"]').contains('Login').click();
 });
+
 Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
   if (options && options.sensitive) {
     options.log = false;
@@ -46,4 +47,24 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
   }
 
   return originalFn(element, text, options);
+});
+
+Cypress.Commands.add('createExpenseViaApi', (carId, mileage, liters, totalCost) => {
+  cy.getCookies().then((cookies) => {
+    const cookieString = cookies.map((c) => `${c.name}=${c.value}`).join('; ');
+    cy.request({
+      method: 'POST',
+      url: '/api/expenses',
+      headers: { Cookie: cookieString },
+      body: {
+        carId,
+        reportedAt: new Date().toISOString().split('T')[0],
+        mileage,
+        liters,
+        totalCost,
+      },
+    }).then((response) => {
+      cy.wrap(response).as('expenseResponse');
+    });
+  });
 });

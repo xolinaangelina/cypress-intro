@@ -1,0 +1,162 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-06-25T06:45:12.509Z",
+    "end": "2026-06-25T06:45:28.177Z",
+    "duration": 15668,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "a3860739-0eeb-4b6e-accf-7b6376a598d0",
+      "title": "",
+      "fullFile": "cypress\\e2e\\garage.cy.js",
+      "file": "cypress\\e2e\\garage.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "cfd78fda-e564-4166-b62c-611fb74bd5ba",
+          "title": "Garage and Fuel Expenses",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should add a car to garage",
+              "fullTitle": "Garage and Fuel Expenses should add a car to garage",
+              "timedOut": null,
+              "duration": 5378,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  createdCarId = interception.response.body.data.id;\n  expect(createdCarId).to.exist;\n});\n_GaragePage.default.carIsVisible('Audi TT');",
+              "err": {},
+              "uuid": "0e385a44-a7a8-4b17-921e-7f8733f61e36",
+              "parentUUID": "cfd78fda-e564-4166-b62c-611fb74bd5ba",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should validate created car via API",
+              "fullTitle": "Garage and Fuel Expenses should validate created car via API",
+              "timedOut": null,
+              "duration": 3174,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  createdCarId = interception.response.body.data.id;\n  cy.getCookies().then(cookies => {\n    const cookieString = cookies.map(c => `${c.name}=${c.value}`).join('; ');\n    cy.request({\n      method: 'GET',\n      url: '/api/cars',\n      headers: {\n        Cookie: cookieString\n      }\n    }).then(response => {\n      expect(response.status).to.eq(200);\n      const cars = response.body.data;\n      const createdCar = cars.find(car => car.id === createdCarId);\n      expect(createdCar).to.exist;\n      expect(createdCar.brand).to.eq('Audi');\n      expect(createdCar.model).to.eq('TT');\n      expect(createdCar.initialMileage).to.eq(10000);\n    });\n  });\n});",
+              "err": {},
+              "uuid": "7e6a38da-5aec-4a4a-8c28-6034e1139366",
+              "parentUUID": "cfd78fda-e564-4166-b62c-611fb74bd5ba",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should create expense via API and validate response",
+              "fullTitle": "Garage and Fuel Expenses should create expense via API and validate response",
+              "timedOut": null,
+              "duration": 2919,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  createdCarId = interception.response.body.data.id;\n  cy.createExpenseViaApi(createdCarId, 10500, 40, 60);\n  cy.get('@expenseResponse').then(response => {\n    expect(response.status).to.eq(200);\n    const expense = response.body.data;\n    expect(expense.carId).to.eq(createdCarId);\n    expect(expense.mileage).to.eq(10500);\n    expect(expense.liters).to.eq(40);\n    expect(expense.totalCost).to.eq(60);\n  });\n});",
+              "err": {},
+              "uuid": "ca6682ec-31af-457d-8dc5-b1df9b3e8632",
+              "parentUUID": "cfd78fda-e564-4166-b62c-611fb74bd5ba",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should validate expense via UI",
+              "fullTitle": "Garage and Fuel Expenses should validate expense via UI",
+              "timedOut": null,
+              "duration": 3733,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  createdCarId = interception.response.body.data.id;\n  cy.createExpenseViaApi(createdCarId, 10500, 40, 60);\n  cy.contains('a', 'Fuel expenses').click();\n  cy.get('#carSelectDropdown').should('contain', 'Audi TT');\n  cy.contains('60.00').should('be.visible');\n});",
+              "err": {},
+              "uuid": "f12260df-0e0e-4c41-9ccc-66236541774a",
+              "parentUUID": "cfd78fda-e564-4166-b62c-611fb74bd5ba",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "0e385a44-a7a8-4b17-921e-7f8733f61e36",
+            "7e6a38da-5aec-4a4a-8c28-6034e1139366",
+            "ca6682ec-31af-457d-8dc5-b1df9b3e8632",
+            "f12260df-0e0e-4c41-9ccc-66236541774a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 15204,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

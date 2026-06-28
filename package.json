@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "cy:open": "cypress open",
-  "cy:run": "cypress run"
-},
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:open:qauto1": "cypress open --config-file cypress.qauto1.config.js",
+    "cy:open:qauto2": "cypress open --config-file cypress.qauto2.config.js",
+    "cy:run:qauto1": "cypress run --config-file cypress.qauto1.config.js",
+    "cy:run:qauto2": "cypress run --config-file cypress.qauto2.config.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xolinaangelina/cypress-intro.git"
@@ -19,6 +23,9 @@
   },
   "homepage": "https://github.com/xolinaangelina/cypress-intro#readme",
   "devDependencies": {
-    "cypress": "^15.17.0"
+    "cypress": "^15.17.0",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2"
   }
 }

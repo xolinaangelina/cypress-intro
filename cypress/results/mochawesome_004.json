@@ -1,0 +1,178 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 0,
+    "pending": 0,
+    "failures": 4,
+    "start": "2026-06-25T06:22:22.367Z",
+    "end": "2026-06-25T06:22:53.013Z",
+    "duration": 30646,
+    "testsRegistered": 4,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "ed026aa6-d541-44eb-8507-be72a02e1696",
+      "title": "",
+      "fullFile": "cypress\\e2e\\garage.cy.js",
+      "file": "cypress\\e2e\\garage.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4ea8ebb2-d866-46c2-b709-ed5e34851e89",
+          "title": "Garage and Fuel Expenses",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should add a car to garage",
+              "fullTitle": "Garage and Fuel Expenses should add a car to garage",
+              "timedOut": null,
+              "duration": 9173,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  const carId = interception.response.body.data.id;\n  expect(carId).to.exist;\n  cy.wrap(carId).as('carId');\n});\n_GaragePage.default.carIsVisible('Audi TT');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `#addCarModal button.btn-primary`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `#addCarModal button.btn-primary`, but never found it.\n    at GaragePage.submitAddCar (webpack://cypress-intro/./cypress/pages/GaragePage.js:27:7)\n    at Context.eval (webpack://cypress-intro/./cypress/e2e/garage.cy.js:16:15)",
+                "diff": null
+              },
+              "uuid": "1ebe6805-3629-45c6-b96f-4b446b14e6ed",
+              "parentUUID": "4ea8ebb2-d866-46c2-b709-ed5e34851e89",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should validate created car via API",
+              "fullTitle": "Garage and Fuel Expenses should validate created car via API",
+              "timedOut": null,
+              "duration": 7169,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  const carId = interception.response.body.data.id;\n  cy.wrap(carId).as('carId');\n});\ncy.get('@carId').then(carId => {\n  cy.getCookies().then(cookies => {\n    const cookieString = cookies.map(c => `${c.name}=${c.value}`).join('; ');\n    cy.request({\n      method: 'GET',\n      url: '/api/cars',\n      headers: {\n        Cookie: cookieString\n      }\n    }).then(response => {\n      expect(response.status).to.eq(200);\n      const cars = response.body.data;\n      const createdCar = cars.find(car => car.id === carId);\n      expect(createdCar).to.exist;\n      expect(createdCar.brand).to.eq('Audi');\n      expect(createdCar.model).to.eq('TT');\n      expect(createdCar.initialMileage).to.eq(10000);\n    });\n  });\n});",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `#addCarModal button.btn-primary`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `#addCarModal button.btn-primary`, but never found it.\n    at GaragePage.submitAddCar (webpack://cypress-intro/./cypress/pages/GaragePage.js:27:7)\n    at Context.eval (webpack://cypress-intro/./cypress/e2e/garage.cy.js:35:15)",
+                "diff": null
+              },
+              "uuid": "85cf01f1-d1f0-4966-9524-052752fb56c4",
+              "parentUUID": "4ea8ebb2-d866-46c2-b709-ed5e34851e89",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should create expense via API and validate response",
+              "fullTitle": "Garage and Fuel Expenses should create expense via API and validate response",
+              "timedOut": null,
+              "duration": 7168,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  const carId = interception.response.body.data.id;\n  cy.wrap(carId).as('carId');\n});\ncy.get('@carId').then(carId => {\n  cy.createExpenseViaApi(carId, 10500, 40, 60);\n  cy.get('@expenseResponse').then(response => {\n    expect(response.status).to.eq(200);\n    const expense = response.body.data;\n    expect(expense.carId).to.eq(carId);\n    expect(expense.mileage).to.eq(10500);\n    expect(expense.liters).to.eq(40);\n    expect(expense.totalCost).to.eq(60);\n  });\n});",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `#addCarModal button.btn-primary`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `#addCarModal button.btn-primary`, but never found it.\n    at GaragePage.submitAddCar (webpack://cypress-intro/./cypress/pages/GaragePage.js:27:7)\n    at Context.eval (webpack://cypress-intro/./cypress/e2e/garage.cy.js:70:15)",
+                "diff": null
+              },
+              "uuid": "a739b041-eb23-4d22-b2be-ee5d1deb384b",
+              "parentUUID": "4ea8ebb2-d866-46c2-b709-ed5e34851e89",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should validate expense via UI",
+              "fullTitle": "Garage and Fuel Expenses should validate expense via UI",
+              "timedOut": null,
+              "duration": 6955,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/cars').as('createCar');\n_GaragePage.default.clickAddCar();\n_GaragePage.default.selectBrand('Audi');\n_GaragePage.default.selectModel('TT');\n_GaragePage.default.setMileage('10000');\n_GaragePage.default.submitAddCar();\ncy.wait('@createCar').then(interception => {\n  expect(interception.response.statusCode).to.eq(201);\n  const carId = interception.response.body.data.id;\n  cy.wrap(carId).as('carId');\n});\ncy.get('@carId').then(carId => {\n  cy.createExpenseViaApi(carId, 10500, 40, 60);\n  cy.contains('a', 'Fuel expenses').click();\n  cy.get('#carSelectDropdown').should('contain', 'Audi TT');\n  cy.contains('60.00').should('be.visible');\n});",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `#addCarModal button.btn-primary`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `#addCarModal button.btn-primary`, but never found it.\n    at GaragePage.submitAddCar (webpack://cypress-intro/./cypress/pages/GaragePage.js:27:7)\n    at Context.eval (webpack://cypress-intro/./cypress/e2e/garage.cy.js:99:15)",
+                "diff": null
+              },
+              "uuid": "85c62c7b-9925-4ee7-a779-4faf76548377",
+              "parentUUID": "4ea8ebb2-d866-46c2-b709-ed5e34851e89",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "1ebe6805-3629-45c6-b96f-4b446b14e6ed",
+            "85cf01f1-d1f0-4966-9524-052752fb56c4",
+            "a739b041-eb23-4d22-b2be-ee5d1deb384b",
+            "85c62c7b-9925-4ee7-a779-4faf76548377"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 30465,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}
