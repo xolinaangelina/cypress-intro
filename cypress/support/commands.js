@@ -48,6 +48,7 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
 
   return originalFn(element, text, options);
 });
+
 Cypress.Commands.add('createExpenseViaApi', (carId, mileage, liters, totalCost) => {
   cy.getCookies().then((cookies) => {
     const cookieString = cookies.map((c) => `${c.name}=${c.value}`).join('; ');
